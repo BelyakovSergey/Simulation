@@ -1,4 +1,4 @@
-using Simulation;
+using Simulation.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
