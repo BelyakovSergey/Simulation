@@ -50,7 +50,6 @@ namespace Simulation
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapRazorPages();
             });
         }
     }
