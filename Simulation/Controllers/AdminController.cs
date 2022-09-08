@@ -8,13 +8,11 @@ namespace Simulation.Controllers
     [Route("admin")]
     public class AdminController : ControllerBase
     {
-        RoleManager<IdentityRole> _roleManager;
         UserManager<IdentityUser> _userManager;
         SignInManager<IdentityUser> _signInManager;
-        
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+
+        public AdminController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
-            _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -31,6 +29,7 @@ namespace Simulation.Controllers
         public async Task<IdentityResult> CreateUser(Client client)
         {
             var user = new IdentityUser { Email = client.Email, UserName = client.Name };
+            await _signInManager.SignInAsync(user, false);
             return await _userManager.CreateAsync(user, client.Password);
         }
 
@@ -38,7 +37,20 @@ namespace Simulation.Controllers
         [Route("login")]
         public async Task<Microsoft.AspNetCore.Identity.SignInResult> Login(Client client)
         {
-            return await _signInManager.PasswordSignInAsync(client.Name, client.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(client.Name, client.Password, false, false);
+            if (result.Succeeded)
+            {
+
+            }
+            return result;
         }
+
+        //[HttpPost]
+        //[Route("addroles")]
+        //public async Task<IdentityResult> AddRoles(Client client)
+        //{
+        //    var user = new IdentityUser { Email = client.Email, UserName = client.Name };
+        //    return await _userManager.AddToRolesAsync(user, new List<string> { "Admin" });
+        //}
     }
 }

@@ -18,8 +18,7 @@ namespace Simulation
         {
             services.AddDbContext<SimulationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<SimulationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SimulationDbContext>();
             services.AddControllersWithViews();
             services.AddSwaggerGen();
             services.AddSignalR();
